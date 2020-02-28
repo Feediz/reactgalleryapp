@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import axios from "axios";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// App components
+import SearchForm from "./components/SearchForm";
+
+import apiKey, { flickerAPI } from "./config";
+import "./App.css";
+
+export default class App extends Component {
+  flickerAPIKey = apiKey;
+  flickerAPIUrl = flickerAPI;
+
+  performSearch = q => {
+    // axios
+    //   .get(`${this.flickerAPIUrl}`)
+    //   .then()
+    //   .catch();
+
+    console.log(`You searched for: ${q}`);
+  };
+  render() {
+    return (
+      <div className="container">
+        <SearchForm onSearch={this.performSearch} />
+      </div>
+    );
+  }
 }
-
-export default App;
