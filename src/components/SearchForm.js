@@ -19,7 +19,7 @@ class SearchForm extends Component {
   render() {
     return (
       <div>
-        <form class="search-form" onSubmit={this.handleSubmit}>
+        <form className="search-form" onSubmit={this.handleSubmit}>
           <input
             ref={input => (this.searchElement = input)}
             onChange={this.onSearchChange}
@@ -28,7 +28,7 @@ class SearchForm extends Component {
             placeholder="Search"
             required
           />
-          <button type="submit" class="search-button">
+          <button type="submit" className="search-button">
             <svg
               fill="#fff"
               height="24"
@@ -42,16 +42,16 @@ class SearchForm extends Component {
           </button>
         </form>
 
-        <nav class="main-nav">
+        <nav className="main-nav">
           <ul>
             <li>
-              <a href="#">Cats</a>
+              <a href="/">Cats</a>
             </li>
             <li>
-              <a href="#">Dogs</a>
+              <a href="/">Dogs</a>
             </li>
             <li>
-              <a href="#">Computers</a>
+              <a href="/">Computers</a>
             </li>
           </ul>
         </nav>
