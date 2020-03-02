@@ -1,15 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-const NoResults = () => {
+const NoResults = props => {
   return (
     <li className="not-found">
-      <h3>No Results Found</h3>
+      <h3>
+        No Results Found for <b>{props.searchTerm}</b>
+      </h3>
       <p>You search did not return any results. Please try again.</p>
     </li>
   );
 };
 
-NoResults.propTypes = {};
+NoResults.propTypes = {
+  searchTerm: PropTypes.string
+};
 
 export default NoResults;

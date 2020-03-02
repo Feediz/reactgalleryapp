@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 const Photo = props => {
@@ -11,6 +11,8 @@ const Photo = props => {
   );
 };
 
-Photo.propTypes = {};
+Photo.propTypes = {
+  photo: PropTypes.string.isRequired
+};
 
 export default Photo;

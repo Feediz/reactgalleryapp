@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Nav from "./Nav";
 
 class SearchForm extends Component {
   state = {
@@ -41,20 +42,7 @@ class SearchForm extends Component {
             </svg>
           </button>
         </form>
-
-        <nav className="main-nav">
-          <ul>
-            <li>
-              <a href="/">Cats</a>
-            </li>
-            <li>
-              <a href="/">Dogs</a>
-            </li>
-            <li>
-              <a href="/">Computers</a>
-            </li>
-          </ul>
-        </nav>
+        <Nav />
       </div>
     );
   }

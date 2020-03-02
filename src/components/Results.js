@@ -9,7 +9,7 @@ class Results extends Component {
     const searchTerm = this.props.searchTerm;
     const p = this.props.photos;
 
-    console.dir(p);
+    // console.dir(p);
     let imagesUI = "";
     if (p.length > 0) {
       imagesUI = p.map(image => (
@@ -19,7 +19,7 @@ class Results extends Component {
         />
       ));
     } else if (searchTerm !== "") {
-      imagesUI = <NoResult />;
+      imagesUI = <NoResult searchTerm={searchTerm} />;
     }
     return (
       <div className="photo-container">
@@ -30,6 +30,9 @@ class Results extends Component {
   }
 }
 
-Results.propTypes = {};
+Results.propTypes = {
+  searchTerm: PropTypes.string.isRequired,
+  phots: PropTypes.array
+};
 
 export default Results;
