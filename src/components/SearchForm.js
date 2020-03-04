@@ -11,10 +11,17 @@ class SearchForm extends Component {
     });
   };
 
+  // handles the search form submit
   handleSubmit = e => {
     e.preventDefault();
     this.props.onSearch(this.searchElement.value);
     e.currentTarget.reset();
+  };
+
+  // gets called from Nav.js
+  // on click of the search buttons
+  handleOnClick = e => {
+    this.props.onSearch(e);
   };
 
   render() {
@@ -42,7 +49,7 @@ class SearchForm extends Component {
             </svg>
           </button>
         </form>
-        <Nav />
+        <Nav key={0} performSearch={this.handleOnClick} />
       </div>
     );
   }

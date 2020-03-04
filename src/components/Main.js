@@ -20,11 +20,11 @@ export default class Main extends Component {
   flickerAPIKey = apiKey;
   flickerAPIUrl = flickerAPI3;
 
+  //TODO: can use this to set default photos to display
   componentDidMount() {
     const { searchTerm } = this.props.match.params;
-    console.log(`search term is: ${searchTerm}`);
     if (searchTerm !== undefined && searchTerm.length > 0) {
-      this.performSearch(searchTerm);
+      this.forceUpdate(this.performSearch(searchTerm));
     }
   }
 
@@ -32,7 +32,6 @@ export default class Main extends Component {
     axios
       .get(`${this.flickerAPIUrl}${q}`)
       .then(photoResults => {
-        console.dir(photoResults);
         this.setState({
           photos: photoResults.data.photos.photo,
           searchTerm: q,
@@ -42,8 +41,6 @@ export default class Main extends Component {
       .catch(function(err) {
         console.error("Error fetching/parsing photos", err);
       });
-
-    // console.log(`You searched for: ${q}`);
   };
   render() {
     return (
