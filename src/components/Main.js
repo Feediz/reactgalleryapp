@@ -7,7 +7,7 @@ import SearchForm from "./SearchForm";
 
 import "../App.css";
 import Results from "./Results";
-import { act } from "react-dom/test-utils";
+// import { act } from "react-dom/test-utils";
 
 let ps = null;
 export default class Main extends Component {

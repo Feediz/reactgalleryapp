@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import apiKey, { flickerAPI3 } from "../../config";
+import Results from '../Results';
 const PhotoGalleryContext = React.createContext();
 
 export class Provider extends Component {
@@ -37,6 +38,58 @@ export class Provider extends Component {
         console.error("Error fetching/parsing photos", err);
       });
   };
+
+  performInitSearch = (q, itemToSet) => {
+    axios
+      .get(`${this.flickerAPIUrl}${q}`)
+      .then(photoResults => {
+        if(itemToSet === 'sunset') {
+          this.setState({
+            photos_sunset: photoResults.data.photos.photo,
+            searchTerm: q,
+            loading: false
+          });
+          
+       } else if(itemToSet === 'python') {
+          this.setState({
+            photos_python: photoResults.data.photos.photo,
+            searchTerm: q,
+            loading: false
+          });
+       }
+       else if(itemToSet === 'tigers') {
+          this.setState({
+            photos_tigers: photoResults.data.photos.photo,
+            searchTerm: q,
+            loading: false
+          });
+       }
+      })
+      .catch(function(err) {
+        console.error("Error fetching/parsing photos", err);
+      });
+  };
+
+
+  componentDidMount() {
+    
+    // if the photos_sunset state is empty let's set it now
+    if(this.state.photos_sunset.length < 1) {
+      console.log('this.state.photos_sunset.lengthasdfasdf: ' + this.state.photos_sunset.length);
+      this.performInitSearch(this.defaultSearchTopics[1], 'sunset');
+    }
+
+    // if the photos_python state is empty let's set it now
+    if(this.state.photos_python.length < 1) {
+      this.performInitSearch(this.defaultSearchTopics[2], 'python');
+    }
+
+    // if the photos_tigers state is empty let's set it now
+    if(this.state.photos_tigers.length < 1) {
+      this.performInitSearch(this.defaultSearchTopics[0], 'tigers');
+    }
+  }
+
 
   render() {
     return (

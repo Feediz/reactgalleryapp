@@ -25,7 +25,8 @@ class Results extends Component {
               />
             ));
             // } else if (searchTerm !== "" && searchTerm !== undefined) {
-          } else if (searchTerm !== "") {
+          //} else if (searchTerm !== "") {
+          } else {
             imagesUI = <NoResult searchTerm={searchTerm} />;
           }
           return (
