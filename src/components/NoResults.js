@@ -5,7 +5,7 @@ const NoResults = props => {
   return (
     <li className="not-found">
       <h3>
-        No Results Found for <b>{props.searchTerm}</b>
+        No Results Found for <b>{props.searchText}</b>
       </h3>
       <p>You search did not return any results. Please try again.</p>
     </li>
@@ -13,7 +13,7 @@ const NoResults = props => {
 };
 
 NoResults.propTypes = {
-  searchTerm: PropTypes.string
+  searchText: PropTypes.string
 };
 
 export default NoResults;

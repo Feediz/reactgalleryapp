@@ -1,12 +1,17 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { Consumer } from "./Context";
+
 import Nav from "./Nav";
 
 class SearchForm extends Component {
+  handleSearch = "";
   // handles the search form submit
   handleSubmit = e => {
     e.preventDefault();
-    this.props.onSearch(this.searchElement.value);
+    let path = `/search/${this.searchElement.value}`;
+    this.props.history.push(path);
+    this.handleSearch(this.searchElement.value);
     e.currentTarget.reset();
   };
   input = React.createRef();
@@ -14,6 +19,8 @@ class SearchForm extends Component {
     return (
       <Consumer>
         {({ actions }) => {
+          this.handleSearch = actions.performSearch;
+
           return (
             <div>
               <form className="search-form" onSubmit={this.handleSubmit}>
@@ -47,4 +54,4 @@ class SearchForm extends Component {
   }
 }
 
-export default SearchForm;
+export default withRouter(SearchForm);

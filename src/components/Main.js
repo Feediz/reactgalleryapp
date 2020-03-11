@@ -1,39 +1,57 @@
-import React, { Component } from "react";
-// import axios from "axios";
+import React from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Consumer } from "./Context";
 
 // App components
 import SearchForm from "./SearchForm";
-
-import "../App.css";
 import Results from "./Results";
-// import { act } from "react-dom/test-utils";
 
-let ps = null;
-export default class Main extends Component {
-  //TODO: can use this to set default photos to display
-  componentDidMount() {
-    const { searchTerm } = this.props.match.params;
-    this.setState({
-      searchTerm
-    });
-    if (searchTerm !== undefined && searchTerm.length > 0) {
-      this.forceUpdate(ps(searchTerm));
-    }
-  }
-  render() {
-    return (
-      <Consumer>
-        {({ actions, photos, searchTerm }) => {
-          ps = actions.performSearch;
-          return (
+// css
+import "../App.css";
+
+const Main = props => {
+  return (
+    <Consumer>
+      {(actions, searchText, photos, photos_tigers, photos_sunset) => {
+        let ps = actions.performSearch;
+        // console.dir("this.state sunset in main");
+        // console.dir(photos_sunset);
+        return (
+          <BrowserRouter>
             <div className="container">
               <SearchForm onSearch={ps} />
-              <Results photos={photos} searchTerm={searchTerm} />
+              <Switch>
+                <Route
+                  exact
+                  path="/search/tigers"
+                  render={() => {
+                    return (
+                      <Results photos={photos_tigers} searchText="tigers" />
+                    );
+                  }}
+                />
+
+                <Route
+                  exact
+                  path="/search/sunset"
+                  render={() => {
+                    return (
+                      <Results photos={photos_sunset} searchText="sunset" />
+                    );
+                  }}
+                />
+
+                <Route path="/search/:searchText">
+                  <Results photos={photos} searchText={searchText} />
+                </Route>
+                <Route path="/" render={() => <Redirect to="/search/" />} />
+              </Switch>
             </div>
-          );
-        }}
-      </Consumer>
-    );
-  }
-}
+          </BrowserRouter>
+        );
+      }}
+    </Consumer>
+  );
+};
+
+export default Main;

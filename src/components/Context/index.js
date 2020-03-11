@@ -1,19 +1,29 @@
 import React, { Component } from "react";
 import axios from "axios";
 import apiKey, { flickerAPI3 } from "../../config";
-import Results from '../Results';
 const PhotoGalleryContext = React.createContext();
 
 export class Provider extends Component {
-  state = {
-    photos: [],
-    photos_sunset: [],
-    photos_tigers: [],
-    photos_python: [],
-    searchTerm: "",
-    loading: true,
-    searchText: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      photos: [],
+      photos_sunset: [],
+      photos_tigers: [],
+      photos_python: [],
+      loading: true,
+      searchText: ""
+    };
+  }
+
+  // state = {
+  //   photos: [],
+  //   photos_sunset: [],
+  //   photos_tigers: [],
+  //   photos_python: [],
+  //   loading: true,
+  //   searchText: ""
+  // };
 
   defaultSearchTopics = ["tigers", "sunset", "python"];
   flickerAPIKey = apiKey;
@@ -30,7 +40,7 @@ export class Provider extends Component {
       .then(photoResults => {
         this.setState({
           photos: photoResults.data.photos.photo,
-          searchTerm: q,
+          searchText: q,
           loading: false
         });
       })
@@ -40,56 +50,78 @@ export class Provider extends Component {
   };
 
   performInitSearch = (q, itemToSet) => {
+    // console.log(`init search for: ${q}`);
     axios
       .get(`${this.flickerAPIUrl}${q}`)
       .then(photoResults => {
-        if(itemToSet === 'sunset') {
+        let resultPhotos = photoResults.data.photos.photo;
+        // console.log(`results for ${q} are :`);
+        // console.dir(resultPhotos);
+
+        if (itemToSet === "sunset") {
           this.setState({
-            photos_sunset: photoResults.data.photos.photo,
-            searchTerm: q,
+            photos_sunset: resultPhotos,
+            searchText: q,
             loading: false
           });
-          
-       } else if(itemToSet === 'python') {
+        } else if (itemToSet === "python") {
           this.setState({
-            photos_python: photoResults.data.photos.photo,
-            searchTerm: q,
+            photos_python: resultPhotos,
+            searchText: q,
             loading: false
           });
-       }
-       else if(itemToSet === 'tigers') {
+        } else if (itemToSet === "tigers") {
           this.setState({
-            photos_tigers: photoResults.data.photos.photo,
-            searchTerm: q,
+            photos_tigers: resultPhotos,
+            searchText: q,
             loading: false
           });
-       }
+        }
+        return resultPhotos;
+        // console.dir("this.state in inittttt");
+        // console.dir(this.state);
       })
       .catch(function(err) {
         console.error("Error fetching/parsing photos", err);
       });
+    // console.dir(this.state);
   };
-
-
-  componentDidMount() {
-    
+  componentDidUpdate() {
+    window.onpopstate = e => {
+      let href = window.location.href;
+      let href_array = href.split("/");
+      let q = href_array[4];
+      q = q ? q : "tea";
+      this.setState({
+        searchText: q
+      });
+      this.performSearch(q);
+    };
+  }
+  componentWillMount() {
+    // console.log("componentWillMount");
     // if the photos_sunset state is empty let's set it now
-    if(this.state.photos_sunset.length < 1) {
-      console.log('this.state.photos_sunset.lengthasdfasdf: ' + this.state.photos_sunset.length);
-      this.performInitSearch(this.defaultSearchTopics[1], 'sunset');
+    if (this.state.photos_sunset.length < 1) {
+      // this.performInitSearch(this.defaultSearchTopics[1], "sunset");
+      // console.log("HELLLLOOOOOOOOOOO");
+      this.performInitSearch("sunset", "sunset");
+
+      // console.log(
+      //   "this.state.photos_sunset.lengthasdfasdf: " +
+      //     this.state.photos_sunset.length
+      // );
     }
 
     // if the photos_python state is empty let's set it now
-    if(this.state.photos_python.length < 1) {
-      this.performInitSearch(this.defaultSearchTopics[2], 'python');
+    if (this.state.photos_python.length < 1) {
+      this.performInitSearch(this.defaultSearchTopics[2], "python");
     }
 
     // if the photos_tigers state is empty let's set it now
-    if(this.state.photos_tigers.length < 1) {
-      this.performInitSearch(this.defaultSearchTopics[0], 'tigers');
+    if (this.state.photos_tigers.length < 1) {
+      this.performInitSearch(this.defaultSearchTopics[0], "tigers");
     }
   }
-
 
   render() {
     return (
