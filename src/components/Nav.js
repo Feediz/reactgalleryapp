@@ -12,6 +12,7 @@ const Nav = () => {
               {defaultSearchTopics.map(topic => (
                 <li key={topic}>
                   <NavLink
+                    className="btn-1"
                     onClick={() => {
                       actions.performSearch(`${topic}`);
                     }}

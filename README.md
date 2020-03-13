@@ -1,5 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Changes to CSS
+
+# I add shadow effect to the images
+
+# I added an effect to the nav buttons on hover
+
+# I added text shadow to the title above the images
+
 ## Available Scripts
 
 In the project directory, you can run:

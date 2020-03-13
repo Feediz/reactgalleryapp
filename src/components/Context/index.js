@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import apiKey, { flickerAPI3 } from "../../config";
+import apiKey from "../../config";
 const PhotoGalleryContext = React.createContext();
 
 export class Provider extends Component {
@@ -16,18 +16,9 @@ export class Provider extends Component {
     };
   }
 
-  // state = {
-  //   photos: [],
-  //   photos_sunset: [],
-  //   photos_tigers: [],
-  //   photos_python: [],
-  //   loading: true,
-  //   searchText: ""
-  // };
-
+  // default search topics
   defaultSearchTopics = ["tigers", "sunset", "python"];
-  flickerAPIKey = apiKey;
-  flickerAPIUrl = flickerAPI3;
+  flickerAPIUrl = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&per_page=24&format=json&nojsoncallback=1&tags=`;
 
   onSearchChange = e => {
     this.setState({
@@ -50,14 +41,10 @@ export class Provider extends Component {
   };
 
   performInitSearch = (q, itemToSet) => {
-    // console.log(`init search for: ${q}`);
     axios
       .get(`${this.flickerAPIUrl}${q}`)
       .then(photoResults => {
         let resultPhotos = photoResults.data.photos.photo;
-        // console.log(`results for ${q} are :`);
-        // console.dir(resultPhotos);
-
         if (itemToSet === "sunset") {
           this.setState({
             photos_sunset: resultPhotos,
@@ -78,38 +65,39 @@ export class Provider extends Component {
           });
         }
         return resultPhotos;
-        // console.dir("this.state in inittttt");
-        // console.dir(this.state);
       })
       .catch(function(err) {
         console.error("Error fetching/parsing photos", err);
       });
-    // console.dir(this.state);
   };
   componentDidUpdate() {
+    // we get the search string from the url and set the searchText state
     window.onpopstate = e => {
       let href = window.location.href;
       let href_array = href.split("/");
       let q = href_array[4];
-      q = q ? q : "tea";
+      q = q ? q : "";
       this.setState({
         searchText: q
       });
       this.performSearch(q);
     };
   }
+  componentDidMount() {
+    // we get the search string from the url and set the searchText state when the page loads
+    let href = window.location.href;
+    let href_array = href.split("/");
+    let q = href_array[4];
+    q = q ? q : "tea";
+    this.setState({
+      searchText: q
+    });
+    this.performSearch(q);
+  }
   componentWillMount() {
-    // console.log("componentWillMount");
     // if the photos_sunset state is empty let's set it now
     if (this.state.photos_sunset.length < 1) {
-      // this.performInitSearch(this.defaultSearchTopics[1], "sunset");
-      // console.log("HELLLLOOOOOOOOOOO");
       this.performInitSearch("sunset", "sunset");
-
-      // console.log(
-      //   "this.state.photos_sunset.lengthasdfasdf: " +
-      //     this.state.photos_sunset.length
-      // );
     }
 
     // if the photos_python state is empty let's set it now

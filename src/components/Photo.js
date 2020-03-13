@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const Photo = props => {
   return (
-    <div>
+    <div id="img">
       <li>
         <img src={props.photo} alt="" />
       </li>
