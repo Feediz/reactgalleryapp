@@ -12,10 +12,12 @@ import "../App.css";
 const Main = props => {
   return (
     <Consumer>
-      {(actions, searchText, photos, photos_tigers, photos_sunset) => {
+      {(actions, defaultSearchTopics, searchText, photos, photos_tigers, photos_sunset) => {
+        console.log("DEFAULT");
+        console.log(defaultSearchTopics);
         let ps = actions.performSearch;
-        // console.dir("this.state sunset in main");
-        // console.dir(photos_sunset);
+        let randomSearch = ["tigers", "sunset", "python"][Math.floor(Math.random() * 3)];
+        // console.log("RANDOM: " + randomSearch);
         return (
           <BrowserRouter>
             <div className="container">
@@ -44,7 +46,8 @@ const Main = props => {
                 <Route path="/search/:searchText">
                   <Results photos={photos} searchText={searchText} />
                 </Route>
-                <Route path="/" render={() => <Redirect to="/search/" />} />
+                
+                <Route path="/" render={() => <Redirect to={`/search/${randomSearch}`} />} />
               </Switch>
             </div>
           </BrowserRouter>
