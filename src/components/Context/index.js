@@ -8,16 +8,16 @@ export class Provider extends Component {
     super(props);
     this.state = {
       photos: [],
-      photos_sunset: [],
-      photos_tigers: [],
-      photos_python: [],
+      photos_coffee: [],
+      photos_dogs: [],
+      photos_fall: [],
       loading: true,
       searchText: ""
     };
   }
 
   // default search topics
-  defaultSearchTopics = ["tigers", "sunset", "python"];
+  defaultSearchTopics = ["coffee", "dogs", "fall"];
   flickerAPIUrl = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&per_page=24&format=json&nojsoncallback=1&tags=`;
 
   onSearchChange = e => {
@@ -26,6 +26,9 @@ export class Provider extends Component {
     });
   };
   performSearch = q => {
+    this.setState({
+      loading: true
+    });
     axios
       .get(`${this.flickerAPIUrl}${q}`)
       .then(photoResults => {
@@ -40,7 +43,7 @@ export class Provider extends Component {
       });
   };
 
-  performInitSearch = (q) => {
+  performInitSearch = q => {
     axios
       .get(`${this.flickerAPIUrl}${q}`)
       .then(photoResults => {
@@ -94,34 +97,35 @@ export class Provider extends Component {
     });
     this.performSearch(q);
   }
-  componentWillMount() {
+
+  // adding "UNSAFE_" per documentation
+  UNSAFE_componentWillMount() {
     // if the photos_sunset state is empty let's set it now
-    if (this.state.photos_sunset.length < 1) {
+    if (this.state.photos_dogs.length < 1) {
       this.performInitSearch(this.defaultSearchTopics[1]);
     }
 
     // if the photos_python state is empty let's set it now
-    if (this.state.photos_python.length < 1) {
+    if (this.state.photos_fall.length < 1) {
       this.performInitSearch(this.defaultSearchTopics[2]);
     }
 
     // if the photos_tigers state is empty let's set it now
-    if (this.state.photos_tigers.length < 1) {
+    if (this.state.photos_coffee.length < 1) {
       this.performInitSearch(this.defaultSearchTopics[0]);
     }
   }
 
   render() {
-    console.log("INDEX");
-    console.dir(this.defaultSearchTopics);
     return (
       <PhotoGalleryContext.Provider
         value={{
           defaultSearchTopics: this.defaultSearchTopics,
           photos: this.state.photos,
-          photos_sunset: this.state.photos_sunset,
-          photos_python: this.state.photos_python,
-          photos_tigers: this.state.photos_tigers,
+          photos_coffee: this.state.photos_coffee,
+          photos_dogs: this.state.photos_dogs,
+          photos_fall: this.state.photos_fall,
+          loading: this.state.loading,
           searchText: this.state.searchText,
           actions: {
             performSearch: this.performSearch,

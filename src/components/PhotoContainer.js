@@ -4,7 +4,7 @@ import { Consumer } from "./Context";
 import Photo from "./Photo";
 import NoResult from "./NoResults";
 
-class Results extends Component {
+class PhotoContainer extends Component {
   render() {
     return (
       <Consumer>
@@ -34,4 +34,4 @@ class Results extends Component {
   }
 }
 
-export default Results;
+export default PhotoContainer;
