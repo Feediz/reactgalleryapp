@@ -10,3 +10,4 @@
 - Used Context API
 - If no results then proper message is displayed
 - A page/path not found page is displayed if the path is not found
+- When page loads a random search results is displayed.
