@@ -32,11 +32,17 @@ export class Provider extends Component {
     axios
       .get(`${this.flickerAPIUrl}${q}`)
       .then(photoResults => {
-        this.setState({
-          photos: photoResults.data.photos.photo,
-          searchText: q,
-          loading: false
-        });
+        if (photoResults.data.stat !== "fail") {
+          this.setState({
+            photos: photoResults.data.photos.photo,
+            searchText: q,
+            loading: false
+          });
+        } else {
+          this.setState({
+            loading: false
+          });
+        }
       })
       .catch(function(err) {
         console.error("Error fetching/parsing photos", err);

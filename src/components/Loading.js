@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const Loading = props => {
   return (
-    <div class="cssload-preloader">
+    <div className="cssload-preloader">
       <span>L</span>
       <span>o</span>
       <span>a</span>
